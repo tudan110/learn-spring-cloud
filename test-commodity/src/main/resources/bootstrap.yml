@@ -1,0 +1,51 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: app-commodity
+  cloud:
+    config:
+      # 对应配置中心的应用名称，默认是本应用名，即 spring.application.name,该名称要和 git 中的配置一致
+      name: ${spring.application.name}
+      profile: dev # 对应配置服务中的{profile}
+      label: master # 对应的分支
+      discovery:
+        # 启用发现服务功能
+        enabled: true
+        # 指定配置中心工程的名称
+        service-id: platform-config-server
+  # RabbitMQ 相关的配置
+#  rabbitmq:
+#    host: 10.20.22.12
+##    host: 192.168.1.82
+#    port: 5672
+#    username: admin
+#    password: 123456
+
+# 服务注册到 eureka 注册中心的地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://tudan:123456@10.20.16.53:8100/eureka/,http://tudan:123456@10.20.16.50:8100/eureka/
+    # 因为该应用为服务提供者，是 eureka 的一个客户端，需要注册到注册中心
+    register-with-eureka: true
+    # 是否需要从 eureka 上检索服务
+    fetch-registry: true
+  instance:
+    # 将自己的 ip 地址注册到 Eureka 服务中
+    prefer-ip-address: true
+#    ip-address: 10.20.22.65
+    # 指定实例 id
+#    instance-id: ${eureka.instance.ip-address}:${server.port}/${spring.application.name}
+
+# 开启所有端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# 日志配置
+logging:
+  config: classpath:logback-spring.xml

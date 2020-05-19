@@ -1,0 +1,10 @@
+# ml-cache
+ml-cache:
+  cache:
+    backend: redis
+  redis:
+    #url: redis://:123456@127.0.0.1:6379/15
+    url: redis://:asiainfo2020@10.19.83.89:6379/15
+    maxActive: 100
+    maxIdle: 30
+    minIdle: 10
